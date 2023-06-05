@@ -11,6 +11,8 @@ We have used Text Search to search word in description which is faster and true 
 This project uses the latest Spring-boot 3 with MongoDB. We have used lombok for injection purpose too.  
 Now the poject is using  Active-Profile set to DEV and test cases also uses the DEV db
 
+For now, there is no Security feature Enabled for the project. We can enable it by adding SecurityFilterChain with User Auth or JWT.
+
 This is a Docker project too. We can run below commands to run a local container of the application. 
 
 docker build -t chinmoy-recipe.jar  
