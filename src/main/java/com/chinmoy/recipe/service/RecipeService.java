@@ -26,4 +26,6 @@ public interface RecipeService {
     List<RecipeDTO> searchRecipe(Map<String, String> customQuery);
 
     int deleteById(String id);
+
+    RecipeDTO updateRecipe(RecipeDTO response);
 }

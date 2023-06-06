@@ -10,6 +10,7 @@ import com.chinmoy.recipe.exception.RecipeNotFoundException;
 import com.chinmoy.recipe.repository.AtlasSearchRepository;
 import com.chinmoy.recipe.repository.RecipeRepository;
 import com.chinmoy.recipe.repository.SearchRepository;
+import com.mongodb.DuplicateKeyException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -39,12 +40,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     /**
-     * Saving Or Updating a recipe by Id.
+     * Saving recipe by Id.
      * @param recipeDTO
      * @return RecipeDTO
      */
     @Override
-    public RecipeDTO saveRecipe(BaseRecipeDTO recipeDTO) {
+    public RecipeDTO saveRecipe(BaseRecipeDTO recipeDTO) throws DuplicateKeyException {
         Recipe recipe = mapper.map(recipeDTO, Recipe.class);
         return mapper.map(repository.save(recipe), RecipeDTO.class);
     }
@@ -132,6 +133,16 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public int deleteById(String id) {
        return repository.deleteById(id);
+    }
+
+    /**
+     * @param recipeDTO
+     * @return
+     */
+    @Override
+    public RecipeDTO updateRecipe(RecipeDTO recipeDTO) {
+        Recipe recipe = mapper.map(recipeDTO, Recipe.class);
+        return mapper.map(repository.save(recipe), RecipeDTO.class);
     }
 
     private List<RecipeDTO> entityToDto(List<Recipe> recipes) {

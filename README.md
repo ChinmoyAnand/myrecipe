@@ -1,15 +1,19 @@
-# myrecipe
+# MYrecipe App
 My-Recipe App using Mongo
 # Getting Started
 
 This Backend API for MY-Recipe app has basic CRUD operations and filter search.
-We have used here Atlas MongoDB which has great feature for auto-complete and fuzzy search based on Index.  
-We have indexed Instruction column for search.  
-
-We have used Text Search to search word in description which is faster and true text search than regex search.
     
 This project uses the latest Spring-boot 3 with MongoDB. We have used lombok for injection purpose too.  
-Now the poject is using  Active-Profile set to DEV and test cases also uses the DEV db
+Now the poject is using  Active-Profile set to DEV and test cases uses the Embedded db.
+
+We have used here Atlas MongoDB which has great feature for auto-complete and fuzzy search based on Index.  
+We have indexed Instruction column for search.
+findRecipeBySearchText(@PathVariable("instruction")  
+
+We have used Text Search to search word in instruction which is faster and true text search than regex search.
+  
+If the Recipe Name are same we don't save in DB and catch the DuplicateKey exception in Global Exception Advice.
 
 For now, there is no Security feature Enabled for the project. We can enable it by adding SecurityFilterChain with User Auth or JWT.
 
@@ -29,14 +33,19 @@ docker run -p 8080:8080 chinmoy-recipe.jar
 We have used global advice controller for exception handling with custom exception classes.  
 As we don't have the FRD so there are no business exceptions for business rules.
 ### Repository
-We have used here 3 types of repository.
+Mongo Auditing is used for maintaining the doc version, createDate, updateDate automatically.  
+
+We have shown the features of 3 types of repository.
 * MongoRepository for Spring data JPA based search conditions.
 * SearchRepository for searching based on different filter conditions. It uses Mongo Template which makes it easy to do Criteria search based on fields present or not in query param.
 * AtlasSearch for advanced search which is super fast and can be used for auto-completion. As atlas search is only available in Atlas Mongo we have used it for this project rather having Mongo installed locally.
 [Nice article here on features of Atlas search](https://www.mongodb.com/developer/products/atlas/atlas-search-vs-regex/)
 
 ### Testing
-We have used Junit 5 for testing. Currently, we have for Controller class and incomplete.
+We have used Junit 5 for testing. We have not written full test cases and not whole code coverage is done. Just wrote basic ones to demonstrate.  
+
+We are using embedded Mongo DB for testing.   
+For Integration testing we have used RestTemplate Test and to test controller we have used mockMvc.
 ### Reference Documentation
 For further reference, please consider the following sections:
 

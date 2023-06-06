@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<modelmapper.version>3.1.1</modelmapper.version>
 		<openapi.version>2.1.0</openapi.version>
+		<flapdoodle.version>4.7.0</flapdoodle.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -37,11 +38,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<!--		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>-->
-
+		<dependency>
+			<groupId>de.flapdoodle.embed</groupId>
+			<artifactId>de.flapdoodle.embed.mongo</artifactId>
+			<version>${flapdoodle.version}</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

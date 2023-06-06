@@ -10,15 +10,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -61,15 +63,13 @@ public class RecipeControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/recipe")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(recipe)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.course").value("MAIN"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Paneer"));
-        // Add assertions for other properties if needed
     }
 
     @Test
     public void testGetAllRecipes() throws Exception {
-        // Prepare expected response
         RecipeDTO recipe1 = new RecipeDTO();
         recipe1.setName("Paneer Tikka");
         recipe1.setCourse(Course.MAIN);
@@ -94,6 +94,14 @@ public class RecipeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].course").value("MAIN"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].course").value("MAIN"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Chicken Tikka"));
+    }
+
+    @Test
+    public void testGetAllRecipes404() throws Exception {
+        List<RecipeDTO> response = new ArrayList<>();
+        when(recipeService.findAllRecipes()).thenReturn(response);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recipe"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
 
 }
